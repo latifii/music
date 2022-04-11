@@ -1,5 +1,9 @@
 <template>
-  <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+  <div
+    class="fixed z-10 inset-0 overflow-y-auto"
+    id="modal"
+    :class="{ hidden: !authModalShow }"
+  >
     <div
       class="
         flex
@@ -42,7 +46,12 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50">
+
+            <div
+              @click="modalAuthHeader"
+              @keypress="bar"
+              class="modal-close cursor-pointer z-50"
+            >
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -51,34 +60,38 @@
           <ul class="flex flex-wrap mb-4">
             <li class="flex-auto text-center">
               <a
-                class="
-                  block
-                  rounded
-                  py-3
-                  px-4
-                  transition
-                  hover:text-white
-                  text-white
-                  bg-blue-600
-                "
+                class="block rounded py-3 px-4 transition"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'login',
+                  'hover:text-blue-600': tab === 'register',
+                }"
+                @click="tab = 'login'"
                 href="#"
                 >Login</a
               >
             </li>
             <li class="flex-auto text-center">
-              <a class="block rounded py-3 px-4 transition" href="#"
+              <a
+                class="block rounded py-3 px-4 transition"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'register',
+                  'hover:text-blue-600': tab === 'login',
+                }"
+                @click="tab = 'register'"
+                href="#"
                 >Register</a
               >
             </li>
           </ul>
 
           <!-- Login Form -->
-          <form>
+          <vee-form v-show="tab === 'login'" :validation-schema="schema">
             <!-- Email -->
             <div class="mb-3">
               <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
               <label class="inline-block mb-2">Email</label>
-              <input
+              <vee-field
+                name="email"
                 type="email"
                 class="
                   block
@@ -94,6 +107,7 @@
                 "
                 placeholder="Enter Email"
               />
+              <ErrorMessage class="text-red-600" name="email" />
             </div>
             <!-- Password -->
             <div class="mb-3">
@@ -132,15 +146,16 @@
             >
               Submit
             </button>
-          </form>
+          </vee-form>
           <!-- Registration Form -->
-          <form>
+          <vee-form v-show="tab === 'register'" :validation-schema="schema">
             <!-- Name -->
             <div class="mb-3">
               <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
               <label class="inline-block mb-2">Name</label>
-              <input
+              <vee-field
                 type="text"
+                name="name"
                 class="
                   block
                   w-full
@@ -155,6 +170,7 @@
                 "
                 placeholder="Enter Name"
               />
+              <ErrorMessage class="text-red-600" name="name" />
             </div>
             <!-- Email -->
             <div class="mb-3">
@@ -287,9 +303,34 @@
             >
               Submit
             </button>
-          </form>
+          </vee-form>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+import { mapMutations, mapState } from 'vuex';
+
+export default {
+  name: 'ModalAuth',
+  data() {
+    return {
+      tab: 'login',
+      schema: {
+        email: 'required',
+        name: 'required',
+      },
+    };
+  },
+  computed: {
+    // authModal() {
+    //   return this.$store.getters.getAuthModalShow;
+    // },
+    ...mapState(['authModalShow']),
+  },
+  methods: {
+    ...mapMutations(['modalAuthHeader']),
+  },
+};
+</script>
