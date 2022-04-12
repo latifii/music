@@ -85,225 +85,9 @@
           </ul>
 
           <!-- Login Form -->
-          <vee-form v-show="tab === 'login'" :validation-schema="schema">
-            <!-- Email -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Email</label>
-              <vee-field
-                name="email"
-                type="email"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Enter Email"
-              />
-              <ErrorMessage class="text-red-600" name="email" />
-            </div>
-            <!-- Password -->
-            <div class="mb-3">
-              <!--  eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Password</label>
-              <input
-                type="password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Password"
-              />
-            </div>
-            <button
-              type="submit"
-              class="
-                block
-                w-full
-                bg-purple-600
-                text-white
-                py-1.5
-                px-3
-                rounded
-                transition
-                hover:bg-purple-700
-              "
-            >
-              Submit
-            </button>
-          </vee-form>
+          <login-form v-if="tab === 'login'" />
           <!-- Registration Form -->
-          <vee-form v-show="tab === 'register'" :validation-schema="schema">
-            <!-- Name -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Name</label>
-              <vee-field
-                type="text"
-                name="name"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Enter Name"
-              />
-              <ErrorMessage class="text-red-600" name="name" />
-            </div>
-            <!-- Email -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Email</label>
-              <input
-                type="email"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Enter Email"
-              />
-            </div>
-            <!-- Age -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Age</label>
-              <input
-                type="number"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-              />
-            </div>
-            <!-- Password -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Password</label>
-              <input
-                type="password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Password"
-              />
-            </div>
-            <!-- Confirm Password -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Confirm Password</label>
-              <input
-                type="password"
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-                placeholder="Confirm Password"
-              />
-            </div>
-            <!-- Country -->
-            <div class="mb-3">
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block mb-2">Country</label>
-              <select
-                class="
-                  block
-                  w-full
-                  py-1.5
-                  px-3
-                  text-gray-800
-                  border border-gray-300
-                  transition
-                  duration-500
-                  focus:outline-none focus:border-black
-                  rounded
-                "
-              >
-                <option value="USA">USA</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Germany">Germany</option>
-              </select>
-            </div>
-            <!-- TOS -->
-            <div class="mb-3 pl-6">
-              <input
-                type="checkbox"
-                class="w-4 h-4 float-left -ml-6 mt-1 rounded"
-              />
-              <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
-              <label class="inline-block">Accept terms of service</label>
-            </div>
-            <button
-              type="submit"
-              class="
-                block
-                w-full
-                bg-purple-600
-                text-white
-                py-1.5
-                px-3
-                rounded
-                transition
-                hover:bg-purple-700
-              "
-            >
-              Submit
-            </button>
-          </vee-form>
+          <register-form v-else />
         </div>
       </div>
     </div>
@@ -311,22 +95,21 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex';
+import LoginForm from './LoginForm.vue';
+import RegisterForm from './RegisterForm.vue';
 
 export default {
   name: 'ModalAuth',
+  components: {
+    LoginForm,
+    RegisterForm,
+  },
   data() {
     return {
       tab: 'login',
-      schema: {
-        email: 'required',
-        name: 'required',
-      },
     };
   },
   computed: {
-    // authModal() {
-    //   return this.$store.getters.getAuthModalShow;
-    // },
     ...mapState(['authModalShow']),
   },
   methods: {
