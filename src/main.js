@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import veeValidatePlugin from './includes/validateVee';
+import './includes/firebase';
 import './assets/tailwind.css';
 import './assets/main.css';
 

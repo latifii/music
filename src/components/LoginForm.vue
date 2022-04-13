@@ -88,12 +88,11 @@ export default {
     };
   },
   methods: {
-    login(values) {
+    login() {
       this.loginInSubmission = true;
       this.loginShowAlert = true;
       this.loginAlertVariant = 'bg-green-500';
       this.loginAlertMsg = 'Success! Your account Login.';
-      console.log(values);
     },
   },
 };

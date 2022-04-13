@@ -184,6 +184,8 @@
 </template>
 
 <script>
+import firebase from '../includes/firebase';
+
 export default {
   name: 'RegisterForm',
   data() {
@@ -207,12 +209,23 @@ export default {
     };
   },
   methods: {
-    register(values) {
+    async register(values) {
       this.regInSubmission = true;
       this.regShowAlert = true;
       this.regAlertVariant = 'bg-green-500';
       this.regAlertMsg = 'Success! Your account has been created.';
+
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(values.email, values.password);
+      } catch (error) {
+        this.regInSubmission = false;
+        this.regAlertVariant = 'bg-red-500';
+        this.regAlertMsg = 'Error , this Is Error backend';
+      }
       console.log(values);
+      // console.log(userDetail);
     },
   },
 };
